@@ -1,13 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Aula Virtual</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <h1>Bienvenido a la Página de Inicio</h1>
-    <a href="login.html">login</a>
+    <header>
+        <div class="container">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+            <nav>
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="#">Cursos</a></li>
+                    <li><a href="#">Perfil</a></li>
+                    <li><a href="#">Salir</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        <section class="hero">
+            <h1>Bienvenido al Aula Virtual</h1>
+            <p>Accede a tus cursos, materiales y más desde aquí.</p>
+            <a href="#" class="btn">Explorar Cursos</a>
+        </section>
+    </main>
 
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Aula Virtual. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
 </html>
