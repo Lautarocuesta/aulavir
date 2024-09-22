@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
+from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
@@ -54,21 +54,33 @@ def index():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        username = form.username.data
-        password = form.password.data
-        user = User.query.filter_by(username=username).first()
-        if user and check_password_hash(user.password, password):
+        user = User.query.filter_by(username=form.username.data).first()
+        if user and check_password_hash(user.password, form.password.data):
             login_user(user)
+            flash('Login successful!', 'success')
             return redirect(url_for('index'))
         else:
-            flash('Login failed. Check your username and password.')
+            flash('Login failed. Check your username and password.', 'danger')
     return render_template('login.html', form=form)
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
+    flash('You have been logged out.', 'info')
     return redirect(url_for('index'))
+
+@app.route('/courses')
+@login_required
+def courses():
+    # Aquí puedes agregar lógica para mostrar cursos.
+    return render_template('courses.html')
+
+@app.route('/profile')
+@login_required
+def profile():
+    # Aquí puedes agregar lógica para mostrar el perfil del usuario.
+    return render_template('profile.html')
 
 # Creación de las tablas y ejecución del servidor
 if __name__ == '__main__':
