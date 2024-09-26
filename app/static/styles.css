@@ -92,6 +92,50 @@ nav ul li a:hover {
     background-color: #357ae8;
 }
 
+/* Course Cards */
+.course-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 2rem;
+}
+
+.course-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+}
+
+.course-header {
+    padding: 20px;
+    color: #fff;
+}
+
+.course-footer {
+    padding: 10px 20px;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
+.course-footer button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.course-footer button:hover {
+    background-color: #555;
+}
+
 /* Footer */
 footer {
     background-color: #333;

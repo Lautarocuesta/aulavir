@@ -28,17 +28,27 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f"User('{self.username}')"
 
+enrollments = db.Table('enrollments',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('course_id', db.Integer, db.ForeignKey('course.id'), primary_key=True)
+)
+
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
     instructor_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    students = db.relationship('User', backref='enrolled_courses')
+    students = db.relationship('User', secondary=enrollments, backref='courses')
 
 # Formularios
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
+
+class AddCourseForm(FlaskForm):
+    course_name = StringField('Nombre del Curso', validators=[DataRequired()])
+    submit = SubmitField('Agregar Curso')
+
 
 # Función user_loader requerida por Flask-Login
 @login_manager.user_loader
@@ -76,11 +86,29 @@ def courses():
     # Aquí puedes agregar lógica para mostrar cursos.
     return render_template('courses.html')
 
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    courses = Course.query.all()  # Obtener todos los cursos
+    return render_template('dashboard.html', courses=courses)
+
 @app.route('/profile')
 @login_required
 def profile():
     # Aquí puedes agregar lógica para mostrar el perfil del usuario.
     return render_template('profile.html')
+
+@app.route('/add_course', methods=['GET', 'POST'])
+@login_required  # Asegúrate de que solo los usuarios autenticados puedan agregar cursos
+def add_course():
+    form = AddCourseForm()
+    if form.validate_on_submit():
+        new_course = Course(name=form.course_name.data, instructor_id=current_user.id)
+        db.session.add(new_course)
+        db.session.commit()
+        flash('Curso agregado exitosamente.', 'success')
+        return redirect(url_for('dashboard'))
+    return render_template('add_course.html', form=form)
 
 # Creación de las tablas y ejecución del servidor
 if __name__ == '__main__':

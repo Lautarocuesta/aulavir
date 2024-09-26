@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Curso</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <main class="container">
+        <section class="hero">
+            <h1>Agregar Nuevo Curso</h1>
+            <form method="POST" action="{{ url_for('add_course') }}">
+                {{ form.hidden_tag() }}
+                <div>
+                    {{ form.course_name.label }}
+                    {{ form.course_name(size=32) }}
+                </div>
+                <div>
+                    {{ form.submit(class="btn") }}
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

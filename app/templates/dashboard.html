@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula Virtual</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Aula">
+                <h1>Aula Virtual</h1>
+            </div>
+            <div class="user-info">
+                <span>Bienvenido, Usuario</span>
+                <img src="{{ url_for('static', filename='images/user.png') }}" alt="Perfil" class="user-avatar">
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="course-cards">
+            <section class="course-cards">
+                {% for course in courses %}
+                    <div class="course-card">
+                        <div class="course-header" style="background-color: #4CAF50;">
+                            <h2>{{ course.name }}</h2>
+                            <span>{{ course.instructor.username }}</span> <!-- Cambia instructor_id por la relación -->
+                        </div>
+                        <div class="course-footer">
+                            <button>Acceder</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </section>
+            <div class="course-card">
+                <div class="course-header" style="background-color: #4CAF50;">
+                    <h2>Recursos Humanos</h2>
+                    <span>Cecilia Contarno</span>
+                </div>
+                <div class="course-footer">
+                    <button>Acceder</button>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-header" style="background-color: #3F51B5;">
+                    <h2>Sistemas y telecomunicaciones</h2>
+                    <span>Christian Barrios</span>
+                </div>
+                <div class="course-footer">
+                    <button>Acceder</button>
+                </div>
+            </div>
+
+            <!-- Agrega más tarjetas según sea necesario -->
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Aula Virtual</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>
