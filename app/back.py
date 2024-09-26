@@ -3,15 +3,16 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms.validators import DataRequired, Email
+from wtforms.validators import DataRequired, EqualTo, ValidationError
 
 # Inicialización de la aplicación
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your_secret_key'  # Cambia esto por una clave secreta real
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'  # Cambia la URI según tu base de datos
+app.config['SECRET_KEY'] = 'patri'  
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://uamws7gyeh4cvtip:Oeco6Lr2lb2XEppKt2gV@bz0veppeu5g5enzhkrdq-mysql.services.clever-cloud.com:3306/bz0veppeu5g5enzhkrdq' 
 
-# Inicialización de la base de datos
+
 db = SQLAlchemy(app)
 
 # Inicialización de Flask-Login
@@ -39,7 +40,15 @@ class Course(db.Model):
     instructor_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     students = db.relationship('User', secondary=enrollments, backref='courses')
 
-# Formularios
+
+
+
+class SignUpForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired(), EqualTo('confirm_password', message='Passwords must match')])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired()])
+    submit = SubmitField('Sign Up')
+
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
@@ -50,12 +59,12 @@ class AddCourseForm(FlaskForm):
     submit = SubmitField('Agregar Curso')
 
 
-# Función user_loader requerida por Flask-Login
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# Rutas
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -73,6 +82,19 @@ def login():
             flash('Login failed. Check your username and password.', 'danger')
     return render_template('login.html', form=form)
 
+    
+@app.route('/sign_in', methods=['GET', 'POST'])
+def sign_in():
+    form = SignUpForm()
+    if form.validate_on_submit():
+        hashed_password = generate_password_hash(form.password.data)
+        new_user = User(username=form.username.data, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+        flash('Account created successfully! You can now log in.', 'success')
+        return redirect(url_for('login'))
+    return render_template('sign_in.html', form=form)
+
 @app.route('/logout')
 @login_required
 def logout():
@@ -83,23 +105,23 @@ def logout():
 @app.route('/courses')
 @login_required
 def courses():
-    # Aquí puedes agregar lógica para mostrar cursos.
+   
     return render_template('courses.html')
 
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    courses = Course.query.all()  # Obtener todos los cursos
+    courses = Course.query.all()  
     return render_template('dashboard.html', courses=courses)
 
 @app.route('/profile')
 @login_required
 def profile():
-    # Aquí puedes agregar lógica para mostrar el perfil del usuario.
+    
     return render_template('profile.html')
 
 @app.route('/add_course', methods=['GET', 'POST'])
-@login_required  # Asegúrate de que solo los usuarios autenticados puedan agregar cursos
+@login_required 
 def add_course():
     form = AddCourseForm()
     if form.validate_on_submit():
@@ -110,8 +132,8 @@ def add_course():
         return redirect(url_for('dashboard'))
     return render_template('add_course.html', form=form)
 
-# Creación de las tablas y ejecución del servidor
+
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()  # Esto creará las tablas en la base de datos si no existen
+        db.create_all()  
     app.run(debug=True)
