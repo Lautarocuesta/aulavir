@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin, current_user
@@ -6,6 +7,10 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Email
 from wtforms.validators import DataRequired, EqualTo, ValidationError
+from werkzeug.utils import secure_filename
+
+UPLOAD_FOLDER = 'uploads/'  # Carpeta para almacenar los archivos subidos
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 # Inicialización de la aplicación
 app = Flask(__name__)
@@ -50,6 +55,7 @@ class SignUpForm(FlaskForm):
     submit = SubmitField('Sign Up')
 
 class LoginForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
@@ -131,6 +137,29 @@ def add_course():
         flash('Curso agregado exitosamente.', 'success')
         return redirect(url_for('dashboard'))
     return render_template('add_course.html', form=form)
+
+# Verificar si el archivo tiene una extensión permitida
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        # Comprobar si el archivo ha sido subido
+        if 'file' not in request.files:
+            flash('No se ha seleccionado ningún archivo.')
+            return redirect(request.url)
+        
+        file = request.files['file']
+        
+        # Si el archivo es válido, guardarlo
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            flash('Archivo subido exitosamente.')
+            return redirect(url_for('upload_file'))
+    
+    return render_template('upload.html')
 
 
 if __name__ == '__main__':

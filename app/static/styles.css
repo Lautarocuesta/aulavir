@@ -145,6 +145,41 @@ footer {
     margin-top: auto;
 }
 
+.materia-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.materia-card {
+    background: #f4f4f4;
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.materia-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.materia-card p {
+    margin-bottom: 1rem;
+}
+
+.materia-card .btn {
+    background: #333;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.materia-card .btn:hover {
+    background: #555;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     nav ul {
