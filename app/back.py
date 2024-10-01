@@ -109,9 +109,7 @@ def logout():
     return redirect(url_for('index'))
 
 @app.route('/courses')
-@login_required
 def courses():
-   
     return render_template('courses.html')
 
 @app.route('/dashboard')
@@ -127,8 +125,12 @@ def profile():
     return render_template('profile.html')
 
 @app.route('/add_course', methods=['GET', 'POST'])
-@login_required 
+@login_required
 def add_course():
+    if current_user.role != 'instructor':
+        flash('Acceso denegado: Solo los instructores pueden agregar cursos.', 'danger')
+        return redirect(url_for('dashboard'))
+
     form = AddCourseForm()
     if form.validate_on_submit():
         new_course = Course(name=form.course_name.data, instructor_id=current_user.id)
@@ -160,6 +162,18 @@ def upload_file():
             return redirect(url_for('upload_file'))
     
     return render_template('upload.html')
+
+@app.route('/enroll/<int:course_id>', methods=['POST'])
+@login_required
+def enroll(course_id):
+    course = Course.query.get_or_404(course_id)
+    if current_user not in course.students:
+        course.students.append(current_user)
+        db.session.commit()
+        flash('Te has inscrito en el curso exitosamente.', 'success')
+    else:
+        flash('Ya estás inscrito en este curso.', 'warning')
+    return redirect(url_for('dashboard'))
 
 
 if __name__ == '__main__':

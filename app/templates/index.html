@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aula Virtual</title>
+    <title>Cursos - Aula Virtual</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
@@ -20,7 +20,7 @@
                         <li><a href="{{ url_for('logout') }}">Salir</a></li>
                     {% else %}
                         <li><a href="{{ url_for('login') }}">Iniciar Sesión</a></li>
-                        <li><a href="{{ url_for('sign_in') }}">registrarse</a></li>
+                        <li><a href="{{ url_for('sign_in') }}">Registrarse</a></li>
                     {% endif %}
                 </ul>
             </nav>
@@ -28,10 +28,26 @@
     </header>
     
     <main>
-        <section class="hero">
-            <h1>Bienvenido al Aula Virtual</h1>
-            <p>Accede a tus cursos, materiales y más desde aquí.</p>
-            <a href="#" class="btn">Explorar Cursos</a>
+        <section class="courses">
+            <h1>Nuestros Cursos Disponibles</h1>
+            <ul class="course-list">
+                <li>
+                    <h2>Matemáticas</h2>
+                    <p>Prof. García - Lunes 10:00 - 12:00</p>
+                </li>
+                <li>
+                    <h2>Historia</h2>
+                    <p>Prof. López - Martes 14:00 - 16:00</p>
+                </li>
+                <li>
+                    <h2>Física</h2>
+                    <p>Prof. Pérez - Miércoles 08:00 - 10:00</p>
+                </li>
+                <li>
+                    <h2>Programación</h2>
+                    <p>Prof. Fernández - Viernes 12:00 - 14:00</p>
+                </li>
+            </ul>
         </section>
     </main>
 
