@@ -30,24 +30,44 @@
     <main>
         <section class="courses">
             <h1>Nuestros Cursos Disponibles</h1>
-            <ul class="course-list">
-                <li>
-                    <h2>Matemáticas</h2>
-                    <p>Prof. García - Lunes 10:00 - 12:00</p>
-                </li>
-                <li>
-                    <h2>Historia</h2>
-                    <p>Prof. López - Martes 14:00 - 16:00</p>
-                </li>
-                <li>
-                    <h2>Física</h2>
-                    <p>Prof. Pérez - Miércoles 08:00 - 10:00</p>
-                </li>
-                <li>
-                    <h2>Programación</h2>
-                    <p>Prof. Fernández - Viernes 12:00 - 14:00</p>
-                </li>
-            </ul>
+            <div class="course-grid">
+                <!-- Curso de Matemáticas -->
+                <div class="course-card">
+                    <img src="{{ url_for('static', filename='img/mate.png') }}" alt="Matemáticas" class="course-image">
+                    <div class="course-info">
+                        <h2>Matemáticas</h2>
+                        <p>Prof. García - Lunes 10:00 - 12:00</p>
+                        <a href="{{ url_for('view_tasks', course_id=1) }}" class="btn-tasks">Ver Tareas</a>
+                    </div>
+                </div>
+                <!-- Curso de Historia -->
+                <div class="course-card">
+                    <img src="{{ url_for('static', filename='img/lenguas.png') }}" alt="Historia" class="course-image">
+                    <div class="course-info">
+                        <h2>Historia</h2>
+                        <p>Prof. López - Martes 14:00 - 16:00</p>
+                        <a href="{{ url_for('view_tasks', course_id=2) }}" class="btn-tasks">Ver Tareas</a>
+                    </div>
+                </div>
+                <!-- Curso de Física -->
+                <div class="course-card">
+                    <img src="{{ url_for('static', filename='img/fis.png') }}" alt="Física" class="course-image">
+                    <div class="course-info">
+                        <h2>Física</h2>
+                        <p>Prof. Pérez - Miércoles 08:00 - 10:00</p>
+                        <a href="{{ url_for('view_tasks', course_id=3) }}" class="btn-tasks">Ver Tareas</a>
+                    </div>
+                </div>
+                <!-- Curso de Química -->
+                <div class="course-card">
+                    <img src="{{ url_for('static', filename='img/quimica.png') }}" alt="Química" class="course-image">
+                    <div class="course-info">
+                        <h2>Química</h2>
+                        <p>Prof. Fernández - Viernes 12:00 - 14:00</p>
+                        <a href="{{ url_for('view_tasks', course_id=4) }}" class="btn-tasks">Ver Tareas</a>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
 

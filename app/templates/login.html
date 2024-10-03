@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">  "che saco la autentificacion pq la verdad es que no la necesitamos"
+<html lang="es">  
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -82,6 +82,8 @@
     <main class="container">
         <section class="hero">
             <h1>Iniciar Sesión</h1>
+
+            
             <form method="POST" action="{{ url_for('login') }}">
                 {{ form.hidden_tag() }}
                 <div>

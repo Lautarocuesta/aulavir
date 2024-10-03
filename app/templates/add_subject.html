@@ -1,0 +1,20 @@
+{% if current_user.is_teacher %}
+<form method="POST" action="{{ url_for('add_subject') }}">
+    <label for="name">Nombre de la Materia:</label>
+    <input type="text" id="name" name="name" required>
+    
+    <label for="school">Colegio:</label>
+    <select id="school" name="school_id">
+        {% for school in schools %}
+        <option value="{{ school.id }}">{{ school.name }}</option>
+        {% endfor %}
+    </select>
+    
+    <label for="time">Hora de la Clase:</label>
+    <input type="text" id="time" name="time" required>
+    
+    <button type="submit">Agregar Materia</button>
+</form>
+{% else %}
+<p>No tienes permisos para agregar materias.</p>
+{% endif %}
