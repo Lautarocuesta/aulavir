@@ -8,6 +8,8 @@ body {
     font-family: 'Roboto', sans-serif;
     background-color: #f4f4f4;
     color: #333;
+    margin: 0;
+    padding: 0;
 }
 
 header {
@@ -187,16 +189,89 @@ nav ul li a:hover {
     background-color: #0056b3;
 }
 
-footer {
-    background-color: #007bff;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    position: relative;
-    bottom: 0;
-    width: 100%;
+#calendar {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 8px;
 }
 
+/* FullCalendar styling */
+.fc {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+}
+
+.fc-toolbar {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border-radius: 8px 8px 0 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.fc-button {
+    background-color: white !important;
+    border: none !important;
+    color: #007bff !important;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.fc-button:hover {
+    background-color: #007bff !important;
+    color: white !important;
+}
+
+.fc-title {
+    color: #333;
+}
+
+.fc-day-grid-event {
+    border-radius: 4px;
+    padding: 5px;
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    border: none;
+}
+
+.fc-event:hover {
+    background-color: #0056b3;
+    cursor: pointer;
+}
+
+.fc-agendaWeek-view .fc-day-grid-event, .fc-agendaDay-view .fc-day-grid-event {
+    background-color: #ff8c00;
+}
+
+.fc-today {
+    background-color: #ffebcd !important;
+}
+
+.fc-time-grid-event {
+    background-color: #28a745;
+    color: white;
+    border-radius: 4px;
+    padding: 2px 5px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #007bff;
+    color: white;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+footer p {
+    margin: 0;
+}
 .materia-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));

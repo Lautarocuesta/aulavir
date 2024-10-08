@@ -15,11 +15,11 @@
                 <ul>
                     <li><a href="{{ url_for('index') }}">Inicio</a></li>
                     <li><a href="{{ url_for('courses') }}">Cursos</a></li>
-                    <li><a href="{{ url_for('profile') }}">Perfil</a></li>
-                    {% if current_user.is_authenticated %}
+                    {% if user.is_authenticated %}
+                        <li><a href="{{ url_for('profile') }}">Perfil</a></li>
                         <li><a href="{{ url_for('logout') }}">Salir</a></li>
                     {% else %}
-                        <li><a href="{{ url_for('login') }}">Iniciar Sesión</a></li>
+                        <li><a href="{{ url_for('login') }}">Iniciar sesión</a></li>
                         <li><a href="{{ url_for('sign_in') }}">Registrarse</a></li>
                     {% endif %}
                 </ul>
