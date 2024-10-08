@@ -7,7 +7,10 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from werkzeug.utils import secure_filename
-from models import db, Tare
+from datetime import datetime
+from apscheduler.schedulers.background import BackgroundScheduler
+from datetime import timedelta
+
 
 
 UPLOAD_FOLDER = 'uploads/'  # Carpeta para almacenar los archivos subidos
@@ -69,6 +72,7 @@ class Tarea(db.Model):
     def __repr__(self):
         return f'<Tarea {self.nombre_curso}>'
 
+
 # Formularios
 class SignUpForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -86,6 +90,17 @@ class LoginForm(FlaskForm):
 class addclassForm(FlaskForm):
     course_name = StringField('Nombre del Curso', validators=[DataRequired()])
     submit = SubmitField('Agregar Curso')
+
+class Evaluacion(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre_curso = db.Column(db.String(100))
+    fecha_evaluacion = db.Column(db.DateTime)
+    descripcion = db.Column(db.String(200))
+    
+    def __repr__(self):
+        return f'<Evaluacion {self.nombre_curso}>'
+
+
 
 # Cargar usuario
 @login_manager.user_loader
@@ -248,6 +263,13 @@ def subir_tarea(nombre_curso):
         return redirect(url_for('cursos'))  # Redirigir a la página de cursos o a donde desees
 
     return render_template('tareas.html', nombre_curso=nombre_curso)
+
+@app.route('/cursos')
+def cursos():
+    evaluaciones = Evaluacion.query.all()  # Obtener todas las evaluaciones
+    return render_template('cursos.html', evaluaciones=evaluaciones)
+
+
 
 
 
