@@ -22,19 +22,124 @@
     
     <main>
         <section class="tareas">
-            <h1>Tareas para Programación 1</h1>
-            <form method="POST" enctype="multipart/form-data">
-                <label for="file">Sube tu tarea:</label>
-                <input type="file" name="file" required>
-                <button type="submit">Subir Tarea</button>
-            </form>
+            <h1>Tareas por Materia</h1>
+            <div class="materias">
+                <div class="materia">
+                    <h2>Artes</h2>
+                    <p>Prof. Gómez - Lunes 10:00 - 12:00</p>
+                    <a href="{{ url_for('tareas_arte') }}" class="ver-tareas">Ver Tareas</a>
+                    <form method="POST" enctype="multipart/form-data">
+                        <label for="file">Sube tu tarea:</label>
+                        <input type="file" name="file" required>
+                        <button type="submit">Subir Tarea</button>
+                    </form>
+                </div>
+                <div class="materia">
+                    <h2>Economía</h2>
+                    <p>Prof. Díaz - Martes 14:00 - 16:00</p>
+                    <a href="{{ url_for('tareas_economia') }}" class="ver-tareas">Ver Tareas</a>
+                    <form method="POST" enctype="multipart/form-data">
+                        <label for="file">Sube tu tarea:</label>
+                        <input type="file" name="file" required>
+                        <button type="submit">Subir Tarea</button>
+                    </form>
+                </div>
+                <div class="materia">
+                    <h2>Educación Física</h2>
+                    <p>Prof. Pérez - Miércoles 08:00 - 10:00</p>
+                    <a href="{{ url_for('tareas_educacion_fisica') }}" class="ver-tareas">Ver Tareas</a>
+                    <form method="POST" enctype="multipart/form-data">
+                        <label for="file">Sube tu tarea:</label>
+                        <input type="file" name="file" required>
+                        <button type="submit">Subir Tarea</button>
+                    </form>
+                </div>
+                <div class="materia">
+                    <h2>Filosofía</h2>
+                    <p>Prof. Fernández - Viernes 12:00 - 14:00</p>
+                    <a href="{{ url_for('tareas_filosofia') }}" class="ver-tareas">Ver Tareas</a>
+                    <form method="POST" enctype="multipart/form-data">
+                        <label for="file">Sube tu tarea:</label>
+                        <input type="file" name="file" required>
+                        <button type="submit">Subir Tarea</button>
+                    </form>
+                </div>
+                <div class="materia">
+                    <h2>Historia</h2>
+                    <p>Prof. Rodríguez - Jueves 10:00 - 12:00</p>
+                    <a href="{{ url_for('tareas_historia') }}" class="ver-tareas">Ver Tareas</a>
+                    <form method="POST" enctype="multipart/form-data">
+                        <label for="file">Sube tu tarea:</label>
+                        <input type="file" name="file" required>
+                        <button type="submit">Subir Tarea</button>
+                    </form>
+                </div>
+                <div class="materia">
+                    <h2>Inglés</h2>
+                    <p>Prof. Smith - Lunes 16:00 - 18:00</p>
+                    <a href="{{ url_for('tareas_ingles') }}" class="ver-tareas">Ver Tareas</a>
+                    <form method="POST" enctype="multipart/form-data">
+                        <label for="file">Sube tu tarea:</label>
+                        <input type="file" name="file" required>
+                        <button type="submit">Subir Tarea</button>
+                    </form>
+                </div>
+                <div class="materia">
+                    <h2>Tecnología</h2>
+                    <p>Prof. Martínez - Miércoles 14:00 - 16:00</p>
+                    <a href="{{ url_for('tareas_tecnologia') }}" class="ver-tareas">Ver Tareas</a>
+                    <form method="POST" enctype="multipart/form-data">
+                        <label for="file">Sube tu tarea:</label>
+                        <input type="file" name="file" required>
+                        <button type="submit">Subir Tarea</button>
+                    </form>
+                </div>
+                <div class="materia">
+                    <h2>Lengua</h2>
+                    <p>Prof. López - Martes 08:00 - 10:00</p>
+                    <a href="{{ url_for('tareas_lengua') }}" class="ver-tareas">Ver Tareas</a>
+                    <form method="POST" enctype="multipart/form-data">
+                        <label for="file">Sube tu tarea:</label>
+                        <input type="file" name="file" required>
+                        <button type="submit">Subir Tarea</button>
+                    </form>
+                </div>
+                <div class="materia">
+                    <h2>Matemáticas</h2>
+                    <p>Prof. Sánchez - Lunes 12:00 - 14:00</p>
+                    <a href="{{ url_for('tareas_matematicas') }}" class="ver-tareas">Ver Tareas</a>
+                    <form method="POST" enctype="multipart/form-data">
+                        <label for="file">Sube tu tarea:</label>
+                        <input type="file" name="file" required>
+                        <button type="submit">Subir Tarea</button>
+                    </form>
+                </div>
+                <div class="materia">
+                    <h2>Química</h2>
+                    <p>Prof. Castro - Jueves 14:00 - 16:00</p>
+                    <a href="{{ url_for('tareas_quimica') }}" class="ver-tareas">Ver Tareas</a>
+                    <form method="POST" enctype="multipart/form-data">
+                        <label for="file">Sube tu tarea:</label>
+                        <input type="file" name="file" required>
+                        <button type="submit">Subir Tarea</button>
+                    </form>
+                </div>
+                <div class="materia">
+                    <h2>Física</h2>
+                    <p>Prof. Morales - Miércoles 12:00 - 14:00</p>
+                    <a href="{{ url_for('tareas_fisica') }}" class="ver-tareas">Ver Tareas</a>
+                    <form method="POST" enctype="multipart/form-data">
+                        <label for="file">Sube tu tarea:</label>
+                        <input type="file" name="file" required>
+                        <button type="submit">Subir Tarea</button>
+                    </form>
+                </div>
+            </div>
         </section>
     </main>
-
+    
     <footer>
-        <div class="container">
-            <p>&copy; 2024 Aula Virtual. Todos los derechos reservados.</p>
-        </div>
+        <p>&copy; 2024 Aula Virtual</p>
     </footer>
 </body>
 </html>

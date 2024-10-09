@@ -14,7 +14,7 @@
             <nav>
                 <ul>
                     <li><a href="{{ url_for('index') }}">Inicio</a></li>
-                    <li><a href="{{ url_for('courses') }}">Cursos</a></li>
+                    <li><a href="{{ url_for('courses') }}">Calendario</a></li>
                     {% if user.is_authenticated %}
                         <li><a href="{{ url_for('profile') }}">Perfil</a></li>
                         <li><a href="{{ url_for('logout') }}">Salir</a></li>
@@ -37,7 +37,8 @@
                     <div class="course-info">
                         <h2>Artes</h2>
                         <p>Prof. Gómez - Lunes 10:00 - 12:00</p>
-                        <a href="{{ url_for('view_tarea', course_id=1) }}" class="btn-task">Ver Tareas</a>
+                        <a href="{{ url_for('tareas_arte') }}" class="btn-task">Ver Tareas de Artes</a>
+
                     </div>
                 </div>
                 <!-- Curso de Economía -->
