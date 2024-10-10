@@ -3,14 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tareas de Economía</title>
+    <title>Lengua</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMZl7BbnH0G7I7R8E1n5gD5d+2R4B1G+uvcI8x" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #e24add;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #b114c0;
+            border-radius: 5px;
+            transition: border-color 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+
+        input[type="file"]:focus {
+            border-color: #e2d84a;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #e2914a;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #f71515;
+        }
+    </style>
 </head>
 <body>
-    <h1>Tareas de Economía</h1>
-    <form method="POST" enctype="multipart/form-data">
-        <label for="file">Sube tu tarea:</label>
-        <input type="file" name="file" required>
-        <button type="submit">Subir Tarea</button>
-    </form>
+    <div class="container">
+        <h1>Tareas de Lengua</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <label for="file">Sube tu tarea:</label>
+            <input type="file" name="file" required>
+            <button type="submit"><i class="fas fa-upload"></i> Subir Tarea</button>
+        </form>
+    </div>
 </body>
 </html>

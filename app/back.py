@@ -2,7 +2,6 @@ import os
 from flask import Flask, render_template, redirect, url_for, flash, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin, current_user
-from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, SelectField
 from wtforms.validators import DataRequired
@@ -129,7 +128,7 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         
-        if user and check_password_hash(user.password, form.password.data):
+        if user and check_password(user.password, form.password.data):
             login_user(user)
             flash('Login exitoso. ¡Bienvenido!', 'success')
             return redirect(url_for('dashboard'))
@@ -142,9 +141,6 @@ def login():
 def sign_in():
     form = SignUpForm()
     if form.validate_on_submit():
-        hashed_password = generate_password_hash(form.password.data, method='sha256')
-        
-        new_user = User(username=form.username.data, password=hashed_password)
         
         try:
             db.session.add(new_user)
@@ -318,9 +314,27 @@ def add_event():
         db.session.rollback()  # Revertir cambios en caso de error
         return jsonify({'status': 'error', 'message': str(e)}), 400  # Devolver error si falla
 
-@app.route('/tarea/artes')
+
+
+@app.route('/tarea/artes', methods=['GET', 'POST'])
 def tareas_arte():
+    if request.method == 'POST':
+        # Procesar el archivo subido
+        file = request.files['file']
+        if file:
+             # Crear la carpeta uploads si no existe
+            upload_folder = 'static/uploads'
+            if not os.path.exists(upload_folder):
+                os.makedirs(upload_folder)
+            # Guardar el archivo en la carpeta deseada
+            file.save(f'static/uploads/{file.filename}')
+            return 'Archivo subido exitosamente'
     return render_template('tareas_artes.html')
+
+@app.errorhandler(405)
+def method_not_allowed(e):
+    return "Método no permitido. Asegúrate de que estás usando el método correcto para esta ruta.", 405
+
 
 @app.route('/tarea/economia')
 def tareas_economia():
