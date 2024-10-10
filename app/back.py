@@ -18,7 +18,7 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'patri'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://uamws7gyeh4cvtip:Oeco6Lr2lb2XEppKt2gV@bz0veppeu5g5enzhkrdq-mysql.services.clever-cloud.com:3306/bz0veppeu5g5enzhkrdq?ssl_disabled=True'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://uamws7gyeh4cvtip:Oeco6Lr2lb2XEppKt2gV@bz0veppeu5g5enzhkrdq-mysql.services.clever-cloud.com:3306/bz0veppeu5g5enzhkrdq?'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 db = SQLAlchemy(app)
@@ -28,14 +28,16 @@ login_manager = LoginManager()
 login_manager.login_view = 'login'
 login_manager.init_app(app)
 
-# Modelos
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
+    role = db.Column(db.String(50), nullable=False)  # Rol del usuario (admin/user)
     
     def __repr__(self):
-        return f"User('{self.username}')"
+        return f"User('{self.username}', '{self.role}')"
+
 
 class Maestro(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -125,31 +127,41 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    
+    
     if form.validate_on_submit():
+
         user = User.query.filter_by(username=form.username.data).first()
         
-        if user and check_password(user.password, form.password.data):
-            login_user(user)
+        
+        if user and user.password == form.password.data:
+            login_user(user) 
             flash('Login exitoso. ¡Bienvenido!', 'success')
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('index')) 
         else:
             flash('Login fallido. Revisa tu nombre de usuario y contraseña.', 'danger')
     
     return render_template('login.html', form=form)
 
+
 @app.route('/sign_in', methods=['GET', 'POST'])
 def sign_in():
     form = SignUpForm()
     if form.validate_on_submit():
-        
+       
+        new_user = User(
+            username=form.username.data,
+            password=form.password.data,  
+            role=form.role.data
+        )
         try:
             db.session.add(new_user)
             db.session.commit()
-            flash('Tu cuenta ha sido creada exitosamente. ¡Ahora puedes iniciar sesión!', 'success')
+            flash('cuenta creada', 'success')
             return redirect(url_for('login'))
         except Exception as e:
             db.session.rollback()
-            flash(f'Error al crear la cuenta: {str(e)}', 'danger')
+            flash(f'error {str(e)}', 'danger')
 
     return render_template('sign_in.html', form=form)
 
@@ -159,12 +171,6 @@ def logout():
     logout_user()
     flash('Has cerrado sesión.', 'info')
     return redirect(url_for('index'))
-
-@app.route('/dashboard')
-@login_required
-def dashboard():
-    courses = Curso.query.all()
-    return render_template('dashboard.html', courses=courses)
 
 @app.route('/courses')
 def courses():
@@ -180,7 +186,7 @@ def profile():
 def add_course():
     if current_user.role != 'instructor':
         flash('Acceso denegado: Solo los instructores pueden agregar cursos.', 'danger')
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('index'))
 
     form = AddClassForm()
     
@@ -190,14 +196,14 @@ def add_course():
             db.session.add(new_course)
             db.session.commit()
             flash('Curso agregado exitosamente.', 'success')
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('tarea'))
         except Exception as e:
             db.session.rollback()
             flash('Error al agregar el curso: ' + str(e), 'danger')
 
     return render_template('add_course.html', form=form)
 
-# Verificar si el archivo tiene una extensión permitida
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -225,7 +231,7 @@ def añadir_estudiante(curso_id):
 
     if current_user.id != course.instructor_id:
         flash('Acceso denegado: Solo el instructor puede añadir estudiantes.', 'danger')
-        return redirect(url_for('dashboard'))  
+        return redirect(url_for('index'))  
 
     student_id = request.form.get('student_id')
     student = User.query.get(student_id)
@@ -239,7 +245,7 @@ def añadir_estudiante(curso_id):
     else:
         flash('Estudiante no encontrado.', 'danger')
 
-    return redirect(url_for('dashboard'))
+    return redirect(url_for('index'))
 
 @app.route('/remover_estudiante_de_curso/<int:curso_id>/<int:student_id>', methods=['POST'])
 @login_required
@@ -248,7 +254,7 @@ def remover_estudiante(curso_id, student_id):
 
     if current_user.id != course.instructor_id:
         flash('Acceso denegado: Solo el instructor puede remover estudiantes.', 'danger')
-        return redirect(url_for('dashboard'))  
+        return redirect(url_for('index'))  
     
 
     student = User.query.get(student_id)
@@ -260,7 +266,7 @@ def remover_estudiante(curso_id, student_id):
     else:
         flash('El estudiante no está inscrito en este curso.', 'danger')
 
-    return redirect(url_for('dashboard'))
+    return redirect(url_for('index'))
 
 # Ruta para las tareas de cada materia
 @app.route('/course/<int:course_id>/tasks')
